@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Moderátor – otázky</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/moderator.css">
+</head>
+<body>
+  <!-- Přihlášení -->
+  <section id="login" class="login" hidden>
+    <form id="login-form" class="login-card">
+      <h1>Panel moderátora</h1>
+      <label>E-mail <input type="email" id="login-email" autocomplete="username" required></label>
+      <label>Heslo <input type="password" id="login-pass" autocomplete="current-password" required></label>
+      <button type="submit" class="btn primary">Přihlásit</button>
+      <p id="login-err" class="err" hidden></p>
+    </form>
+  </section>
+
+  <!-- Aplikace -->
+  <div id="app" hidden>
+    <header class="top">
+      <div class="brand">
+        <strong id="ev-name">Otázky</strong>
+        <span id="status-open" class="pill"></span>
+        <span id="stats" class="muted"></span>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button class="tab on" data-tab="questions" role="tab">Otázky</button>
+        <button class="tab" data-tab="settings" role="tab">Nastavení</button>
+      </nav>
+      <div class="top-actions">
+        <a class="btn" href="projekce.html" target="_blank" rel="noopener">Otevřít projekci ↗</a>
+        <button class="btn ghost" id="logout">Odhlásit</button>
+      </div>
+    </header>
+
+    <!-- Záložka Otázky -->
+    <main id="tab-questions" class="grid">
+      <section class="col">
+        <div class="col-head">
+          <h2>Všechny otázky <span id="all-count" class="muted"></span></h2>
+          <div class="filters">
+            <select id="f-target" aria-label="Adresát"></select>
+            <select id="f-status" aria-label="Stav">
+              <option value="open">Nepoložené</option>
+              <option value="notqueued">Nepoložené mimo frontu</option>
+              <option value="asked">Položené</option>
+              <option value="any">Všechny</option>
+            </select>
+            <select id="f-sort" aria-label="Řazení">
+              <option value="votes">Nejvíce hlasů</option>
+              <option value="new">Nejnovější</option>
+              <option value="old">Nejstarší</option>
+            </select>
+            <input type="search" id="f-search" placeholder="Hledat…" aria-label="Hledat v otázkách">
+          </div>
+        </div>
+        <ol id="all-list" class="qlist"></ol>
+        <p id="all-empty" class="empty" hidden>Žádné otázky.</p>
+      </section>
+
+      <section class="col queue-col">
+        <div class="proj card">
+          <div class="proj-row">
+            <span class="label">Projekce</span>
+            <span id="proj-state" class="proj-state"></span>
+          </div>
+          <div class="proj-btns">
+            <button class="btn" id="proj-idle" title="Úvodní obrazovka s QR kódem pro studenty">Úvod + QR</button>
+            <button class="btn" id="proj-queue" title="Na plátně seznam otázek z fronty">Promítat frontu</button>
+            <button class="btn" id="proj-blank" title="Prázdná obrazovka">Skrýt</button>
+          </div>
+          <div class="proj-btns" id="proj-q-ctrl" hidden>
+            <button class="btn" id="proj-prev">◀ Předchozí</button>
+            <button class="btn primary" id="proj-next">Položeno a další ▶</button>
+          </div>
+        </div>
+
+        <div class="col-head">
+          <h2>Moje fronta <span id="queue-count" class="muted"></span></h2>
+          <button class="btn small ghost" id="queue-clean" title="Odebrat z fronty otázky označené jako položené">Odebrat položené</button>
+        </div>
+        <p class="hint">Přidejte otázky tlačítkem „+ Do fronty“. Pořadí změníte přetažením nebo šipkami. Fronta je společná pro všechny moderátory.</p>
+        <ol id="queue-list" class="qlist queue"></ol>
+        <p id="queue-empty" class="empty" hidden>Fronta je prázdná.</p>
+      </section>
+    </main>
+
+    <!-- Záložka Nastavení -->
+    <main id="tab-settings" class="settings" hidden>
+      <section class="card">
+        <h2>Odkaz pro studenty</h2>
+        <div class="qr-wrap">
+          <div id="qr" class="qr"></div>
+          <div>
+            <p><a id="student-link" href="./" target="_blank" rel="noopener"></a></p>
+            <p class="btn-row">
+              <button class="btn" id="copy-link">Kopírovat odkaz</button>
+              <a class="btn" id="qr-download" download="qr-otazky.gif">Stáhnout QR kód</a>
+            </p>
+            <p class="muted">QR kód je i na úvodní obrazovce projekce.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Akce</h2>
+        <form id="event-form" class="form-grid">
+          <label>Nadtitulek <input id="ev-kicker" maxlength="80"></label>
+          <label>Název <input id="ev-title" maxlength="80" required></label>
+          <label class="wide">Podtitul <input id="ev-subtitle" maxlength="160"></label>
+          <label class="check wide"><input type="checkbox" id="ev-open"> Přijímat nové otázky</label>
+          <div class="wide"><button class="btn primary" type="submit">Uložit</button></div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Komu lze otázky položit</h2>
+        <p class="muted">„Všem (obecná otázka)“ je vždy na prvním místě a nejde smazat. Popis (nepovinný) se studentům zobrazí za jménem.</p>
+        <ol id="targets-list" class="targets"></ol>
+        <form id="target-form" class="target-add">
+          <input id="t-name" placeholder="Jméno" maxlength="80" required>
+          <input id="t-note" placeholder="Popis, např. firma (nepovinné)" maxlength="80">
+          <button class="btn primary" type="submit">Přidat</button>
+        </form>
+        <p><button class="btn ghost small" id="import-guests">Nahrát hosty z plakátu</button></p>
+      </section>
+
+      <section class="card">
+        <h2>Skryté otázky <span id="hidden-count" class="muted"></span></h2>
+        <p class="muted">Skryté otázky studenti nevidí. Můžete je vrátit nebo smazat.</p>
+        <ol id="hidden-list" class="qlist"></ol>
+        <p id="hidden-empty" class="empty" hidden>Žádné skryté otázky.</p>
+      </section>
+
+      <section class="card danger">
+        <h2>Data</h2>
+        <p class="btn-row">
+          <button class="btn" id="export-csv">Exportovat otázky (CSV)</button>
+        </p>
+        <p><strong>Vymazat všechny otázky a hlasy.</strong> Seznam jmen a nastavení akce zůstanou. Akci nelze vrátit.</p>
+        <p class="btn-row">
+          <input id="wipe-confirm" placeholder='Pro potvrzení napište SMAZAT' aria-label="Potvrzení smazání">
+          <button class="btn danger" id="wipe" disabled>Smazat vše</button>
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <script src="vendor/qrcode.js"></script>
+  <script type="module" src="js/moderator.js"></script>
+</body>
+</html>

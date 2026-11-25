@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Projekce – otázky</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/brand.css">
+  <link rel="stylesheet" href="css/projection.css">
+</head>
+<body>
+  <div class="stage" id="stage">
+    <div class="bg"></div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob warm b4"></div>
+
+    <!-- Úvod + QR -->
+    <section class="screen idle" id="s-idle">
+      <div class="idle-text">
+        <p class="kicker" id="ev-kicker"></p>
+        <h1 class="display" id="ev-title"></h1>
+        <p class="sub" id="ev-subtitle"></p>
+        <p class="cta">Pošlete svou otázku panelistům.<br><em>Anonymně, z mobilu.</em></p>
+      </div>
+      <div class="qr-box">
+        <span class="label">Naskenujte</span>
+        <div class="qr" id="qr-big"></div>
+        <span class="url" id="url-big"></span>
+      </div>
+    </section>
+
+    <!-- Jedna otázka -->
+    <section class="screen question" id="s-question" hidden>
+      <p class="q-for"><span class="label-light">Otázka pro</span> <span id="q-target" class="q-target"></span></p>
+      <div class="q-text-wrap"><p class="q-text" id="q-text"></p></div>
+      <p class="q-votes" id="q-votes"></p>
+    </section>
+
+    <!-- Fronta -->
+    <section class="screen queue" id="s-queue" hidden>
+      <h2 class="display queue-title">Otázky z publika</h2>
+      <ol class="queue-list" id="queue-list"></ol>
+      <p class="queue-empty" id="queue-empty" hidden>Fronta je zatím prázdná.</p>
+    </section>
+
+    <!-- Prázdné plátno -->
+    <section class="screen blank" id="s-blank" hidden></section>
+
+    <div class="corner-qr" id="corner-qr" hidden>
+      <div class="qr" id="qr-small"></div>
+      <span>Ptejte se</span>
+    </div>
+
+    <img src="assets/logos.png" alt="" class="logos" id="logos">
+  </div>
+
+  <button class="fs-btn" id="fs-btn">Celá obrazovka (F)</button>
+  <p class="conn" id="conn" hidden>Připojuji…</p>
+
+  <script src="vendor/qrcode.js"></script>
+  <script type="module" src="js/projection.js"></script>
+</body>
+</html>

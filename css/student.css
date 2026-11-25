@@ -1,0 +1,139 @@
+/* Studentská stránka – mobil především */
+body { overflow-x: hidden; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 64px 22px 46px;
+  background:
+    linear-gradient(180deg, rgba(10, 10, 12, 0.35) 0%, rgba(10, 10, 12, 0.75) 60%, var(--bg) 100%),
+    url("../assets/bg-corridor.jpg") center 30% / cover no-repeat,
+    var(--bg);
+}
+.hero .b1 { width: 210px; height: 230px; left: -90px; top: -40px; }
+.hero .b2 { width: 120px; height: 110px; left: 70px; top: 40px; opacity: 0.95; }
+.hero .b3 { width: 46px; height: 42px; right: 34px; top: 120px; }
+.hero-inner { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
+.hero .kicker { margin: 70px 0 8px; font-size: 0.85rem; }
+.hero h1 { font-size: clamp(2.6rem, 13vw, 5.4rem); }
+.hero-sub { font-weight: 700; font-size: 1.02rem; margin: 14px 0 6px; }
+.hero-note { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.hero-note em { font-style: italic; }
+
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 40px; position: relative; z-index: 1; }
+
+/* Bílý formulář jako boxy KDY / KDE na plakátu */
+.card.ask {
+  background: #fff;
+  color: #111;
+  padding: 20px 18px 18px;
+  border-radius: var(--radius);
+  margin-top: -10px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+.field { margin-bottom: 14px; }
+.field .label { display: block; margin-bottom: 6px; }
+.card select, .card textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 16px; /* zabrání zoomu na iOS */
+  color: #111;
+  background: #f4f4f6;
+  border: 2px solid #e3e3e8;
+  border-radius: var(--radius);
+  padding: 11px 12px;
+}
+.card textarea { resize: vertical; min-height: 110px; line-height: 1.4; }
+.card select:focus, .card textarea:focus { outline: none; border-color: var(--violet); background: #fff; }
+.counter { text-align: right; font-size: 0.78rem; color: #777; margin-top: 4px; font-weight: 600; }
+.counter.warn { color: #c0144f; }
+
+.btn-grad {
+  width: 100%;
+  border: 0;
+  border-radius: 999px;
+  padding: 15px 20px;
+  font: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--grad);
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.2s;
+}
+.btn-grad:active { transform: scale(0.98); }
+.btn-grad:disabled { opacity: 0.45; cursor: default; }
+.closed-msg { margin: 12px 0 0; font-weight: 700; color: #c0144f; text-align: center; }
+
+/* Seznam otázek */
+.questions { margin-top: 34px; }
+.list-head h2 { font-weight: 900; text-transform: uppercase; font-size: 1.5rem; margin: 0 0 12px; letter-spacing: -0.01em; }
+.list-head .count { color: var(--muted); font-weight: 700; font-size: 1.1rem; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-bottom: 14px; }
+.filters select {
+  font: inherit; font-size: 15px; font-weight: 600;
+  color: #fff; background: var(--bg-2);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 9px 14px; flex: 1 1 100%;
+}
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.seg button {
+  font: inherit; font-size: 0.85rem; font-weight: 700;
+  background: transparent; color: var(--muted);
+  border: 0; padding: 8px 13px; cursor: pointer;
+}
+.seg button.on { background: #fff; color: #111; }
+.chk { font-size: 0.85rem; font-weight: 600; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.chk input { accent-color: var(--violet); width: 17px; height: 17px; }
+
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.q {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 14px 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+}
+.q.mine { border-color: rgba(139, 61, 255, 0.7); }
+.q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 0.75rem; color: var(--muted); }
+.q-target {
+  font-weight: 800; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff; background: rgba(123, 60, 245, 0.35); padding: 3px 8px; border-radius: 3px;
+}
+.q-target.general { background: rgba(255, 255, 255, 0.12); }
+.q-badge { font-weight: 700; color: #c9a8ff; }
+.q-text { grid-column: 1 / 2; margin: 0; font-size: 1rem; line-height: 1.42; font-weight: 500; white-space: pre-wrap; overflow-wrap: anywhere; }
+.vote {
+  grid-column: 2 / 3; grid-row: 1 / 3; align-self: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 56px; min-height: 56px;
+  border-radius: 12px; border: 1px solid var(--line);
+  background: transparent; color: #fff;
+  font: inherit; font-weight: 800; font-size: 1.05rem; cursor: pointer;
+}
+.vote .arrow { font-size: 0.8rem; line-height: 1; margin-bottom: 2px; }
+.vote.on { background: var(--grad); border-color: transparent; }
+.vote:disabled { cursor: default; opacity: 0.55; }
+
+.q.asked { opacity: 0.5; filter: grayscale(1); }
+.q.asked .q-text { text-decoration: none; }
+.q-asked { font-weight: 800; color: #fff; }
+
+.empty { color: var(--muted); text-align: center; padding: 26px 0; }
+
+.foot { padding: 30px 16px 40px; text-align: center; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--line); }
+.foot .logos { max-width: 100%; width: 520px; height: auto; display: block; margin: 0 auto 16px; opacity: 0.9; mix-blend-mode: screen; }
+.foot p { max-width: 520px; margin: 0 auto; }
+
+@media (min-width: 640px) {
+  .hero { padding: 80px 32px 64px; }
+  .hero .b1 { width: 300px; height: 330px; left: -110px; }
+  .hero .b2 { width: 170px; height: 160px; left: 130px; top: 60px; }
+  .filters select { flex: 0 1 260px; }
+  .card.ask { padding: 26px 26px 22px; }
+}

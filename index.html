@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0c">
+  <meta name="robots" content="noindex">
+  <title>Breakfast Talks – vaše otázky</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/brand.css">
+  <link rel="stylesheet" href="css/student.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="hero-inner">
+      <p class="kicker" id="ev-kicker">FROM LAB TO MARKET /</p>
+      <h1 class="display" id="ev-title">BREAKFAST TALKS</h1>
+      <p class="hero-sub" id="ev-subtitle">Podnikavost ve zdravotnických technologiích</p>
+      <p class="hero-note">Zeptejte se panelistů. <em>Anonymně, bez registrace.</em></p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card ask" aria-labelledby="ask-h">
+      <h2 id="ask-h" class="sr-only">Položit otázku</h2>
+      <form id="ask-form" novalidate>
+        <div class="field">
+          <label class="label" for="ask-target">Komu je otázka určena</label>
+          <select id="ask-target" required>
+            <option value="all">Všem (obecná otázka)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="ask-text">Vaše otázka</label>
+          <textarea id="ask-text" rows="4" maxlength="300" placeholder="Napište otázku…" required></textarea>
+          <div class="counter"><span id="ask-count">0</span> / 300</div>
+        </div>
+        <button type="submit" class="btn-grad" id="ask-btn">Odeslat otázku</button>
+        <p class="closed-msg" id="closed-msg" hidden>Příjem otázek je momentálně uzavřen.</p>
+      </form>
+    </section>
+
+    <section class="questions" aria-labelledby="list-h">
+      <div class="list-head">
+        <h2 id="list-h">Otázky <span id="list-count" class="count"></span></h2>
+      </div>
+      <div class="filters">
+        <label class="sr-only" for="f-target">Filtrovat podle adresáta</label>
+        <select id="f-target">
+          <option value="*">Všichni adresáti</option>
+          <option value="all">Obecné (všem)</option>
+        </select>
+        <div class="seg" role="group" aria-label="Řazení">
+          <button type="button" data-sort="votes" class="on">Nejvíce hlasů</button>
+          <button type="button" data-sort="new">Nejnovější</button>
+        </div>
+        <label class="chk"><input type="checkbox" id="f-hide-asked"> Skrýt položené</label>
+        <label class="chk"><input type="checkbox" id="f-mine"> Jen moje</label>
+      </div>
+      <ol id="list" class="list" aria-live="polite"></ol>
+      <p id="empty" class="empty" hidden>Zatím tu nejsou žádné otázky. Buďte první!</p>
+      <p id="loading" class="empty">Načítám…</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <img src="assets/logos.png" alt="Loga pořadatelů a partnerů" class="logos">
+    <p>Neukládáme jméno, e-mail ani jiné osobní údaje. Ukládá se jen text otázky, adresát a čas.</p>
+  </footer>
+
+  <script type="module" src="js/student.js"></script>
+</body>
+</html>

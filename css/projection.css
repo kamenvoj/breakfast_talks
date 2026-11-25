@@ -1,0 +1,106 @@
+/* Projekce – 16:9, škáluje podle šířky/výšky okna */
+html, body { height: 100%; overflow: hidden; background: #000; }
+[hidden] { display: none !important; }
+
+.stage {
+  /* plátno 16:9 vepsané do okna */
+  --w: min(100vw, calc(100vh * 16 / 9));
+  --h: calc(var(--w) * 9 / 16);
+  --u: calc(var(--w) / 100); /* 1 % šířky plátna */
+  position: absolute;
+  left: 50%; top: 50%;
+  width: var(--w); height: var(--h);
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  background: var(--bg);
+}
+.bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10, 10, 12, 0.92) 0%, rgba(10, 10, 12, 0.6) 55%, rgba(10, 10, 12, 0.85) 100%),
+    url("../assets/bg-corridor.jpg") center / cover no-repeat;
+  filter: grayscale(1);
+}
+.b1 { width: calc(var(--u) * 17); height: calc(var(--u) * 19); left: calc(var(--u) * -6); top: calc(var(--u) * -4); }
+.b2 { width: calc(var(--u) * 9); height: calc(var(--u) * 8.5); left: calc(var(--u) * 8); top: calc(var(--u) * 4); }
+.b3 { width: calc(var(--u) * 3.2); height: calc(var(--u) * 3); right: calc(var(--u) * 6); top: calc(var(--u) * 7); }
+.b4 { width: calc(var(--u) * 26); height: calc(var(--u) * 22); right: calc(var(--u) * -9); bottom: calc(var(--u) * -12); border-radius: 50% 50% 40% 60% / 60% 55% 45% 40%; }
+
+.screen { position: absolute; inset: 0; z-index: 1; padding: calc(var(--u) * 6) calc(var(--u) * 7); }
+
+/* Úvod */
+.idle { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 5); }
+.idle-text { max-width: calc(var(--u) * 55); }
+.idle .kicker { font-size: calc(var(--u) * 1.5); margin: 0 0 calc(var(--u) * 0.8); }
+.idle h1 { font-size: calc(var(--u) * 7.6); }
+.idle .sub { font-weight: 700; font-size: calc(var(--u) * 1.9); margin: calc(var(--u) * 1.6) 0 0; }
+.idle .cta { font-size: calc(var(--u) * 2.2); font-weight: 600; margin: calc(var(--u) * 3) 0 0; line-height: 1.35; }
+.idle .cta em { color: var(--muted); font-weight: 500; }
+.qr-box {
+  background: #fff; color: #111; padding: calc(var(--u) * 2);
+  display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 1);
+  border-radius: var(--radius);
+}
+.qr-box .label { font-size: calc(var(--u) * 1.1); }
+.qr-box .qr { width: calc(var(--u) * 22); height: calc(var(--u) * 22); }
+.qr svg { width: 100%; height: 100%; display: block; }
+.qr-box .url { font-weight: 800; font-size: calc(var(--u) * 1.15); max-width: calc(var(--u) * 24); text-align: center; word-break: break-all; }
+
+/* Jedna otázka */
+.question { display: flex; flex-direction: column; padding-top: calc(var(--u) * 8); padding-right: calc(var(--u) * 16); }
+.q-for { margin: 0 0 calc(var(--u) * 2); display: flex; align-items: baseline; gap: calc(var(--u) * 1.2); flex-wrap: wrap; }
+.label-light { font-weight: 800; font-size: calc(var(--u) * 1.3); letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.7); }
+.q-target {
+  font-weight: 900; font-size: calc(var(--u) * 3); text-transform: uppercase; letter-spacing: -0.01em;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.q-text-wrap { flex: 1; min-height: 0; overflow: hidden; }
+.q-text { margin: 0; font-weight: 800; line-height: 1.18; letter-spacing: -0.01em; font-size: calc(var(--u) * 4.6); white-space: pre-wrap; overflow-wrap: anywhere; }
+.q-votes { margin: calc(var(--u) * 1.5) 0 0; font-weight: 700; font-size: calc(var(--u) * 1.6); color: var(--muted); }
+
+/* Fronta */
+.queue { padding-right: calc(var(--u) * 14); }
+.queue-title { font-size: calc(var(--u) * 4.2); margin-bottom: calc(var(--u) * 2.5); }
+.queue-list { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--u) * 1.1); }
+.queue-list li {
+  display: grid; grid-template-columns: calc(var(--u) * 4.5) 1fr; gap: calc(var(--u) * 1.4); align-items: start;
+  border-top: 1px solid var(--line); padding-top: calc(var(--u) * 1.1);
+}
+.queue-list .n { font-weight: 900; font-size: calc(var(--u) * 2.6); line-height: 1; color: rgba(255, 255, 255, 0.35); }
+.queue-list .t { font-weight: 800; font-size: calc(var(--u) * 0.95); letter-spacing: 0.14em; text-transform: uppercase; color: #c9a8ff; margin-bottom: calc(var(--u) * 0.4); }
+.queue-list .x {
+  font-weight: 700; font-size: calc(var(--u) * 1.75); line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.queue-list li.first .n { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.queue-list li.first .x { font-size: calc(var(--u) * 2.3); -webkit-line-clamp: 3; }
+.queue-empty { font-size: calc(var(--u) * 2); color: var(--muted); }
+
+.blank { background: #000; }
+
+/* QR v rohu (u otázky a fronty) */
+.corner-qr {
+  position: absolute; z-index: 2; right: calc(var(--u) * 3); top: calc(var(--u) * 3);
+  background: #fff; color: #111; padding: calc(var(--u) * 0.7);
+  display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 0.3);
+  font-weight: 800; font-size: calc(var(--u) * 0.8); text-transform: uppercase; letter-spacing: 0.1em;
+  border-radius: var(--radius);
+}
+.corner-qr .qr { width: calc(var(--u) * 8.5); height: calc(var(--u) * 8.5); }
+
+.logos { mix-blend-mode: screen; position: absolute; z-index: 2; left: calc(var(--u) * 7); bottom: calc(var(--u) * 2.6); width: calc(var(--u) * 30); height: auto; opacity: 0.85; }
+/* mimo úvod menší skvrny, aby nepřekrývaly text */
+.stage.is-content .b1 { width: calc(var(--u) * 9); height: calc(var(--u) * 10); left: calc(var(--u) * -4); top: calc(var(--u) * -4); }
+.stage.is-content .b2 { width: calc(var(--u) * 4); height: calc(var(--u) * 3.8); left: calc(var(--u) * 3); top: calc(var(--u) * 3.5); }
+.stage.is-content .b3 { display: none; }
+.stage.is-blank .logos, .stage.is-blank .blob, .stage.is-blank .bg { display: none; }
+
+.fs-btn {
+  position: fixed; right: 16px; bottom: 16px; z-index: 10;
+  font: inherit; font-weight: 700; font-size: 14px;
+  background: rgba(255, 255, 255, 0.92); color: #111; border: 0; border-radius: 999px;
+  padding: 10px 16px; cursor: pointer; transition: opacity 0.4s;
+}
+body.idle-mouse .fs-btn { opacity: 0; pointer-events: none; }
+body.idle-mouse { cursor: none; }
+.conn { position: fixed; left: 16px; bottom: 10px; z-index: 10; color: rgba(255, 255, 255, 0.6); font-size: 13px; margin: 0; }

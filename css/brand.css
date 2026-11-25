@@ -1,0 +1,85 @@
+/* Sdílené barvy a prvky vizuálu Breakfast Talks */
+:root {
+  --bg: #0a0a0c;
+  --bg-2: #141417;
+  --line: rgba(255, 255, 255, 0.14);
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.66);
+  --violet: #7b3cf5;
+  --pink: #ff2e8a;
+  --orange: #ff8a3c;
+  --grad: linear-gradient(135deg, #ff2e8a 0%, #8b3dff 52%, #ff8a3c 100%);
+  --grad-warm: linear-gradient(160deg, #ff2e8a 0%, #e0484f 55%, #ff9a3c 100%);
+  --radius: 4px;
+  --font: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Organické barevné skvrny jako na plakátu */
+.blob {
+  position: absolute;
+  pointer-events: none;
+  background: var(--grad);
+  border-radius: 58% 42% 55% 45% / 52% 60% 40% 48%;
+  filter: saturate(1.1);
+  z-index: 0;
+}
+.blob.warm { background: var(--grad-warm); }
+
+.kicker {
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.display {
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.label {
+  color: var(--violet);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 40px);
+  opacity: 0;
+  background: #fff;
+  color: #111;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+  z-index: 100;
+  max-width: calc(100vw - 32px);
+  text-align: center;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast.error { background: #ffe1e6; color: #8a0624; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+}
