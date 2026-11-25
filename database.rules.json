@@ -2,34 +2,34 @@
   "rules": {
     "config": {
       ".read": "auth != null",
-      ".write": "auth != null && auth.uid === 'MODERATOR_UID'"
+      ".write": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'"
     },
 
     "questions": {
       ".read": "auth != null",
-      ".write": "auth != null && auth.uid === 'MODERATOR_UID'",
+      ".write": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'",
       "$qid": {
         ".write": "auth != null && !data.exists() && newData.exists() && root.child('config/event/open').val() === true && newData.parent().parent().child('authors').child($qid).val() === auth.uid && newData.parent().parent().child('lastPost').child(auth.uid).val() === now",
         ".validate": "newData.hasChildren(['text', 'target', 'createdAt'])",
         "text": { ".validate": "newData.isString() && newData.val().length >= 3 && newData.val().length <= 300" },
-        "target": { ".validate": "newData.isString() && (newData.val() === 'all' || root.child('config/targets').child(newData.val()).exists() || auth.uid === 'MODERATOR_UID')" },
-        "createdAt": { ".validate": "newData.isNumber() && (newData.val() === now || auth.uid === 'MODERATOR_UID')" },
-        "asked": { ".validate": "newData.isBoolean() && auth.uid === 'MODERATOR_UID'" },
-        "askedAt": { ".validate": "newData.isNumber() && auth.uid === 'MODERATOR_UID'" },
+        "target": { ".validate": "newData.isString() && (newData.val() === 'all' || root.child('config/targets').child(newData.val()).exists() || auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13')" },
+        "createdAt": { ".validate": "newData.isNumber() && (newData.val() === now || auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13')" },
+        "asked": { ".validate": "newData.isBoolean() && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'" },
+        "askedAt": { ".validate": "newData.isNumber() && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'" },
         "$other": { ".validate": false }
       }
     },
 
     "authors": {
-      ".read": "auth != null && auth.uid === 'MODERATOR_UID'",
-      ".write": "auth != null && auth.uid === 'MODERATOR_UID'",
+      ".read": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'",
+      ".write": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'",
       "$qid": {
         ".write": "auth != null && !data.exists() && newData.val() === auth.uid"
       }
     },
 
     "lastPost": {
-      ".write": "auth != null && auth.uid === 'MODERATOR_UID'",
+      ".write": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'",
       "$uid": {
         ".read": "auth != null && auth.uid === $uid",
         ".write": "auth != null && auth.uid === $uid",
@@ -39,7 +39,7 @@
 
     "votes": {
       ".read": "auth != null",
-      ".write": "auth != null && auth.uid === 'MODERATOR_UID'",
+      ".write": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'",
       "$qid": {
         "$uid": {
           ".write": "auth != null && auth.uid === $uid && (!newData.exists() || (root.child('questions').child($qid).exists() && root.child('questions').child($qid).child('asked').val() !== true && root.child('authors').child($qid).val() !== auth.uid))",
@@ -49,18 +49,18 @@
     },
 
     "hidden": {
-      ".read": "auth != null && auth.uid === 'MODERATOR_UID'",
-      ".write": "auth != null && auth.uid === 'MODERATOR_UID'"
+      ".read": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'",
+      ".write": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'"
     },
 
     "queue": {
       ".read": "auth != null",
-      ".write": "auth != null && auth.uid === 'MODERATOR_UID'"
+      ".write": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'"
     },
 
     "projection": {
       ".read": "auth != null",
-      ".write": "auth != null && auth.uid === 'MODERATOR_UID'"
+      ".write": "auth != null && auth.uid === 'ufKKs9qV4sQtN5Kui9wCE08Ntl13'"
     }
   }
 }

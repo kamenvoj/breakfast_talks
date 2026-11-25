@@ -2,13 +2,13 @@
 // Hodnoty najdete ve Firebase konzoli: Project settings → General → Your apps → Web app.
 // Tyto údaje nejsou tajné – data chrání pravidla v database.rules.json.
 export const firebaseConfig = {
-  apiKey: "DOPLNIT",
-  authDomain: "DOPLNIT.firebaseapp.com",
-  databaseURL: "https://DOPLNIT-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "DOPLNIT",
-  storageBucket: "DOPLNIT.appspot.com",
-  messagingSenderId: "DOPLNIT",
-  appId: "DOPLNIT"
+  apiKey: "AIzaSyApyW05H1V8UmdIPQdwo6P_UTVZVav-HLo",
+  authDomain: "breakfast-talks-f73ad.firebaseapp.com",
+  databaseURL: "https://breakfast-talks-f73ad-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "breakfast-talks-f73ad",
+  storageBucket: "breakfast-talks-f73ad.firebasestorage.app",
+  messagingSenderId: "522218846433",
+  appId: "1:522218846433:web:4309cd1c1311adca291fa0"
 };
 
 // Výchozí texty akce (moderátor je může změnit v Nastavení).
