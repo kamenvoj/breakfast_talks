@@ -91,7 +91,7 @@ function subscribeAll() {
   sub("config/targets", (v) => { state.targets = v || {}; renderTargets(); renderAll(); });
   sub("questions", (v) => { state.questions = v || {}; renderAll(); });
   sub("votes", (v) => { state.votes = v || {}; renderAll(); });
-  sub("hidden", (v) => { state.hidden = v || {}; renderHidden(); });
+  sub("hidden", (v) => { state.hidden = v || {}; renderHidden(); renderAll(); });
   sub("queue", (v) => { state.queue = v || {}; renderAll(); });
   sub("projection", (v) => { state.projection = v || { mode: "idle" }; renderAll(); });
 }
@@ -164,13 +164,13 @@ function hideQuestion(qid) {
     [`queue/${qid}`]: null
   };
   if (state.projection.current === qid) upd.projection = { mode: "idle", current: null };
-  run(update(ref(db), upd), "Otázka skryta.");
+  run(update(ref(db), upd), "Otázka skryta. Najdete ji ve filtru „Skryté“.");
 }
 
 function restoreQuestion(qid) {
   const q = state.hidden[qid];
   if (!q) return;
-  run(update(ref(db), { [`questions/${qid}`]: q, [`hidden/${qid}`]: null }), "Otázka vrácena.");
+  run(update(ref(db), { [`questions/${qid}`]: q, [`hidden/${qid}`]: null }), "Otázka je znovu viditelná.");
 }
 
 function deleteQuestion(qid) {
@@ -343,7 +343,8 @@ function renderAll() {
   // statistiky
   const totalVotes = ids.reduce((s, id) => s + voteCount(state.votes, id), 0);
   const asked = ids.filter((id) => qs[id].asked).length;
-  $("stats").textContent = `${ids.length} otázek · ${totalVotes} hlasů · ${asked} položeno`;
+  const nHid = Object.keys(state.hidden).length;
+  $("stats").textContent = `${ids.length} otázek · ${totalVotes} hlasů · ${asked} položeno${nHid ? ` · ${nHid} skryto` : ""}`;
 
   // filtr adresátů s počty
   const counts = {};
@@ -359,7 +360,9 @@ function renderAll() {
   // seznam všech otázek
   const { target, status, sort } = state.filter;
   const search = (state.filter.search || "").trim().toLowerCase();
-  let items = ids.map((id) => ({ id, q: qs[id], v: voteCount(state.votes, id) }));
+  const hiddenMode = status === "hidden";
+  const source = hiddenMode ? state.hidden : qs;
+  let items = Object.keys(source).map((id) => ({ id, q: source[id], v: voteCount(state.votes, id) }));
   if (target !== "*") items = items.filter((x) => (x.q.target || GENERAL) === target);
   if (status === "open") items = items.filter((x) => !x.q.asked);
   if (status === "notqueued") items = items.filter((x) => !x.q.asked && !qPos[x.id]);
@@ -372,7 +375,13 @@ function renderAll() {
 
   $("all-count").textContent = `(${items.length})`;
   $("all-empty").hidden = items.length > 0;
-  $("all-list").replaceChildren(...items.map((x) => questionItem(x.id, x.q, qPos[x.id])));
+  $("all-empty").textContent = hiddenMode ? "Žádné skryté otázky." : "Žádné otázky.";
+  $("all-list").replaceChildren(...items.map((x) => hiddenMode ? hiddenItem(x.id, x.q) : questionItem(x.id, x.q, qPos[x.id])));
+
+  // počet skrytých ve výběru stavu
+  const nHidden = Object.keys(state.hidden).length;
+  const optHidden = $("f-status").querySelector('option[value="hidden"]');
+  if (optHidden) optHidden.textContent = nHidden ? `Skryté (${nHidden})` : "Skryté";
 
   // fronta
   $("queue-count").textContent = qOrder.length ? `(${qOrder.filter((id) => !qs[id].asked).length} zbývá z ${qOrder.length})` : "";
@@ -508,14 +517,24 @@ function renderHidden() {
   const items = Object.entries(state.hidden).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
   $("hidden-count").textContent = items.length ? `(${items.length})` : "";
   $("hidden-empty").hidden = items.length > 0;
-  $("hidden-list").replaceChildren(...items.map(([id, q]) => el("li", { class: "qi" },
-    el("div", { class: "qi-meta" }, targetPill(q), el("span", { class: "muted", text: clockTime(q.createdAt) })),
+  $("hidden-list").replaceChildren(...items.map(([id, q]) => hiddenItem(id, q)));
+}
+
+function hiddenItem(id, q) {
+  return el("li", { class: "qi hidden-q" },
+    el("div", { class: "qi-meta" },
+      targetPill(q),
+      el("span", { class: "votes", title: "Počet hlasů", text: `▲ ${voteCount(state.votes, id)}` }),
+      el("span", { class: "muted", text: clockTime(q.createdAt) }),
+      el("span", { class: "badge hid", text: "Skryto – studenti ji nevidí" })
+    ),
     el("p", { class: "qi-text", text: q.text }),
     el("div", { class: "qi-actions" },
-      el("button", { class: "btn small", onclick: () => restoreQuestion(id), text: "Vrátit" }),
+      el("button", { class: "btn small primary", onclick: () => restoreQuestion(id), text: "↺ Zviditelnit" }),
+      el("span", { class: "spacer" }),
       el("button", { class: "btn small ghost danger-text", onclick: () => deleteQuestion(id), text: "Smazat" })
     )
-  )));
+  );
 }
 
 /* =========================================================

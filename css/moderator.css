@@ -110,6 +110,8 @@ input:focus, select:focus { outline: 2px solid var(--violet-soft); border-color:
 .badge.asked { background: #e3f5ea; color: var(--ok); }
 .badge.queued { background: #111; color: #fff; }
 .badge.screen { background: var(--pink); color: #fff; }
+.badge.hid { background: #ececf2; color: #555; }
+.qi.hidden-q { border-style: dashed; background: #fafafc; }
 
 /* Fronta */
 .queue-item { display: grid; grid-template-columns: 34px 1fr; gap: 8px; cursor: grab; }
